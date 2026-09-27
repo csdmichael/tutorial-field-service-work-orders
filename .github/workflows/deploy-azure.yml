@@ -104,13 +104,28 @@ jobs:
         run: python3 .github/scripts/record_published_links.py
 
       - name: Commit release-agent documentation
+        env:
+          API_APP: ${{ vars.API_WEBAPP_NAME }}
+          UI_APP: ${{ vars.UI_WEBAPP_NAME }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
+          set -euo pipefail
           if git diff --quiet -- README.md; then
             echo "README already current"
+            exit 0
+          fi
+          # Release runs check out a pinned release tag (detached HEAD); record the links on
+          # the tip of the default branch so later commits are never overwritten.
+          branch="${DEFAULT_BRANCH:-main}"
+          git fetch --no-tags --depth=1 origin "$branch"
+          git checkout --force -B "$branch" FETCH_HEAD
+          python3 .github/scripts/record_published_links.py
+          if git diff --quiet -- README.md; then
+            echo "README already current on $branch"
             exit 0
           fi
           git config user.name "agentic-sdlc-release-agent[bot]"
           git config user.email "agentic-sdlc-release-agent@users.noreply.github.com"
           git add README.md
           git commit -m "DevOps Release Agent: record published links [skip ci]"
-          git push
+          git push origin "HEAD:refs/heads/$branch"
