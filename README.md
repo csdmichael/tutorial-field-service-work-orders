@@ -129,7 +129,16 @@ after validating the exact ID-qualified GitHub environment subject.
 ## Published links
 
 <!-- agentic-sdlc:published-links:start -->
-_Populated automatically once the deployment pipeline succeeds._
+| Component | URL |
+| --- | --- |
+| UI | <https://tutorial-field-service-work-orders-ui.azurewebsites.net> |
+| API | <https://tutorial-field-service-work-orders-api.azurewebsites.net> |
+| Swagger UI | <https://tutorial-field-service-work-orders-api.azurewebsites.net/docs> |
+| OpenAPI document | <https://tutorial-field-service-work-orders-api.azurewebsites.net/openapi.json> |
+| Work Order API | <https://tutorial-field-service-work-orders-api.azurewebsites.net/api/work-orders> |
+| API health probe | <https://tutorial-field-service-work-orders-api.azurewebsites.net/health> |
+
+_Published and verified 2026-09-27 23:20 UTC by the Agentic SDLC DevOps & Release Agent via `deploy-azure.yml`. Smoke tests covered the health probe, Swagger/OpenAPI, the UI, and a create/update/delete round trip._
 <!-- agentic-sdlc:published-links:end -->
 
 ## Requirements scope
